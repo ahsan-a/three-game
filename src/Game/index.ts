@@ -15,13 +15,18 @@ import createScene from './components/essentials/scene';
 import createRenderer from './systems/renderer';
 import { Ticker } from './typings';
 
+import { Ref, ref } from 'vue';
+
 let camera: PerspectiveCamera;
 let scene: Scene;
 let renderer: WebGLRenderer;
 let loop: Loop;
 
-export default class Game {
+let game: Ref<Game>;
+
+export class Game {
 	status?: 'home' | 'game';
+	x = 0;
 
 	constructor(public canvas: HTMLCanvasElement) {
 		camera = createCamera(canvas);
@@ -54,4 +59,11 @@ export default class Game {
 	stop() {
 		loop.stop();
 	}
+}
+
+export const getGame = () => game;
+
+export function createGame(canvas: HTMLCanvasElement) {
+	game = ref(new Game(canvas));
+	return game;
 }

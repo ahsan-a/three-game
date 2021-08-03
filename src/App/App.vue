@@ -1,11 +1,10 @@
 <template>
 	<div id="game-container" class="absolute w-full h-full">
 		<canvas id="scene" class="fixed w-full h-full"> </canvas>
-
-		{{ game?.status }}
+		<Home v-if="game.status === 'home'" />
 	</div>
 </template>
 
-<style src="./index.css"></style>
+<style src="./App.css"></style>
 
-<script src="./index.ts" lang="ts"></script>
+<script src="./App" lang="ts"></script>
