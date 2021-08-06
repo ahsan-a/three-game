@@ -1,25 +1,37 @@
 import { defineComponent, ref, Ref, onMounted } from 'vue';
 import { createGame, Game } from '../Game';
 
-import { useStore } from '../store';
+import { useGameStore } from '../store/game';
 
 import Home from '../components/Home/Home.vue';
+import Player from '../components/Player.vue';
 
 export default defineComponent({
 	components: {
 		Home,
+		Player,
 	},
 	setup() {
-		const store = useStore();
-		onMounted(() => {
+		const gameStore = useGameStore();
+
+		window.onload = () => (gameStore.$state.loaded = true);
+
+		onMounted(async () => {
 			const canvas = document.getElementById('scene') as HTMLCanvasElement;
 			if (!canvas) return alert('an error occurred.');
+
 			createGame(canvas);
-			store.state.game = store.state.game as Game;
-			store.state.game.start();
-			store.state.game.status = 'home';
+			await gameStore.$state.game?.init();
+
+			if (!gameStore.$state.game) return;
+			gameStore.$state.game.start();
+			gameStore.setStatus('home');
 		});
 
-		return { store };
+		function handlePlayer() {
+			setTimeout(() => {}, 1000);
+		}
+
+		return { gameStore, handlePlayer };
 	},
 });

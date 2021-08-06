@@ -5,11 +5,7 @@ const clock = new Clock();
 
 export default class Loop {
 	updatables: Ticker[] = [];
-	constructor(
-		public camera: PerspectiveCamera,
-		public scene: Scene,
-		public renderer: WebGLRenderer
-	) {}
+	constructor(public camera: PerspectiveCamera, public scene: Scene, public renderer: WebGLRenderer) {}
 	start() {
 		this.renderer.setAnimationLoop(() => {
 			this.tick();
@@ -21,8 +17,5 @@ export default class Loop {
 		this.renderer.setAnimationLoop(null);
 	}
 
-	tick() {
-		const delta = clock.getDelta();
-		for (const object of this.updatables) object.tick?.(delta);
-	}
+	tick = () => this.updatables.forEach((x) => x.tick?.(clock.getDelta()));
 }
