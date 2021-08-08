@@ -22,6 +22,9 @@ export const useGameStore = defineStore({
 				case 'home':
 					this.$state.game.initHome();
 					break;
+				case 'loading':
+					this.$state.game.initLoad();
+					break;
 			}
 		},
 	},

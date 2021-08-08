@@ -1,12 +1,10 @@
 <template>
-	<div class="absolute bottom-3 right-3 bg-1 p-2 rounded-lg shadow-md" v-if="state.interracted">
+	<div class="absolute bottom-3 right-3 bg-1 z-10 p-2 rounded-lg shadow-md transition-all" v-if="state.interracted">
 		<div class="flex flex-row items-center mr-3">
-			<div class="flex flex-row items-center">
-				<img :src="state.current.image" class="w-20 h-auto rounded-md" />
-				<div class="ml-3 mr-6">
-					<h1 class="text-gray-50 text-xl font-semibold">{{ state.current.name }}</h1>
-					<h1 class="text-xs text-gray-200 font-medium">{{ state.current.artist }}</h1>
-				</div>
+			<img :src="state.current.image" class="w-20 h-auto rounded-md" />
+			<div class="ml-3 mr-6">
+				<h1 class="text-gray-50 text-xl font-semibold">{{ state.current.name }}</h1>
+				<h1 class="text-sm text-gray-300 font-medium">{{ state.current.artist }}</h1>
 			</div>
 			<button class="mx-4 focus:outline-none" @click="music.pause()">
 				<svg
@@ -89,19 +87,25 @@ export default defineComponent({
 			state.currentSound = new Audio(`${rootSoundPath}${soundNames[i].name}/audio.mp3`);
 			state.current = soundNames[i];
 			state.currentSound.addEventListener('ended', playSound);
-			state.currentSound.play();
+
+			if (localStorage.getItem('musicPaused') === 'false') state.currentSound.play();
+			state.paused = !!state.currentSound?.paused;
 		}
 
 		function musicPlay() {
-			document.removeEventListener('click', musicPlay);
-			state.interracted = true;
-			playSound();
+			setTimeout(() => {
+				document.removeEventListener('click', musicPlay);
+				state.interracted = true;
+				playSound();
+			}, 1000);
 		}
 
 		const music = {
 			pause: () => {
 				state.currentSound?.paused ? state.currentSound.play() : state.currentSound?.pause();
 				state.paused = !!state.currentSound?.paused;
+
+				localStorage.setItem('musicPaused', state.paused.toString());
 			},
 			skip: () => {
 				state.currentSound?.pause();

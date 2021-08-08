@@ -2,3 +2,12 @@
 	background: -webkit-linear-gradient(#638eff, #fd755a);
 	background: linear-gradient(#638eff, #fd755a);
 }
+
+.fade-enter-active,
+.fade-leave-active {
+	transition: opacity 0.5s;
+}
+.fade-enter,
+.fade-leave-to {
+	opacity: 0;
+}
