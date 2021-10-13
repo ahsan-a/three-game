@@ -88,7 +88,8 @@ export default defineComponent({
 			state.current = soundNames[i];
 			state.currentSound.addEventListener('ended', playSound);
 
-			if (localStorage.getItem('musicPaused') === 'false') state.currentSound.play();
+			// if (localStorage.getItem('musicPaused') !== 'true') state.currentSound.play();
+			state.currentSound.play();
 			state.paused = !!state.currentSound?.paused;
 		}
 
