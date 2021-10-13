@@ -15,6 +15,7 @@ export default defineConfig({
 			targets: [
 				{ src: 'src/index.html', dest: 'dist/public' },
 				{ src: 'src/assets/*', dest: 'dist/src/assets' },
+				{ src: 'src/assets/music/*', dest: 'dist/src/assets/music' },
 			],
 			hook: 'writeBundle', // notice here
 		}),
